@@ -27,12 +27,12 @@ var connection = mysql.createConnection({
 // Ask Queries
 // Provide results
 
-function  startApp(){
-  connection.connect((err) => {
-      if (err) throw err;
-      // console.log("Connected at " + connection.threadId)
-  })
-  }
+// function  startApp(){
+//   connection.connect((err) => {
+//       if (err) throw err;
+//       // console.log("Connected at " + connection.threadId)
+//   })
+//   }
 
 
 function appMenu() {
@@ -44,8 +44,8 @@ function appMenu() {
     inquirer.prompt([
       {
         type: "list",
-        name: "menu",
-        message: "How will you observe today?",
+        name: "doMore",
+        message: "How would you like to observe today?",
         choices: [
           "View departments, roles, and employees",
           "Add new department, role, or employee",
@@ -53,9 +53,9 @@ function appMenu() {
           "Exit"
         ]
       }
-    ]).then(menuChoices => {
-      switch(menuChoices.menu) {
-      case "View departments, roles, employees":
+    ]).then(userChoice => {
+      switch(userChoice.doMore) {
+      case "View departments, roles, and employees":
         viewAll();
         whatElse();
         break;
@@ -161,7 +161,7 @@ function appMenu() {
       {
         type: "input",
         name: "addDeptName",
-        message: "Please enter role by title.",
+        message: "Please enter department name.",
         validate: answer => {
           if (answer !== "") {
             return true;
@@ -177,13 +177,148 @@ function appMenu() {
   }
   
   function addRole() {
-    viewAll();
-    whatElse();
+    inquirer.prompt([
+      {
+        type: "input",
+        name: "addTitle",
+        message: "Please enter new obligation title.",
+        validate: answer => {
+          if (answer !== "") {
+            return true;
+          }
+          return "Please enter at least one character.";
+        }
+      },
+      {
+        type: "input",
+        name: "addSalary",
+        message: "Please enter salary (Decimal Format: #####.##)",
+        validate: answer => {
+          if (Number.isInteger(answer.addSalary) !== true && answer !== "") {
+            parseFloat(answer.addSalary)
+            return true;
+          }
+          return "Please enter a valid answer.";
+        }
+      },
+      {
+        type: "input",
+        name: "addDept",
+        message: "Please enter Department ID.",
+        validate: answer => {
+          const pass = answer.match(
+            /^[1-9|.]\d*$/
+          );
+          if (pass) {
+            // connection.query("SELECT CONVERT("+answer.addDept+", CHAR)")
+            parseInt(answer.addDept)
+            return true;
+          }
+          return "Please enter a valid answer.";
+        }
+      }
+    ]).then(answer => {
+    // var salary = addZeroes(parseFloat(answer.addSalary));
+    addRole();
+    // var salary = parseFloat(answer.addSalary)
+    // var dept = parseInt(answer.addDept)
+    // function r
+
+    // var newAnswer = parseFloat(answer.addSalary)
+    // function addToRoles(title, salary, dept){
+      // connection.query("INSERT INTO role (title, salary, department_id) VALUES (?)", [answer.addTitle, '333.33', '3'])
+      // function(err, res) {
+      //   if (err) throw err;
+        // console.log(result);
+      // });
+      // connection.query("INSERT INTO role (salary) VALUES (?)", [answer.addSalary])
+      // connection.query("INSERT INTO role (department_id) VALUES (?)", [answer.addDept])
+      // }
+    // addToRoles(answer.addTitle, answer.addSalary, answer.addDept)
+
+      whatElse();
+      break;
+    })
+    // function addZeroes(num) {
+    //   const dec = num.split('.')[1]
+    //   const len = dec && dec.length > 2 ? dec.length : 2
+    //   return Number(num).toFixed(len)
+    // }
   }
   
   function addEmployee() {
     viewAll();
     whatElse();
+  }
+
+  function addRole() {
+    inquirer.prompt([
+      {
+        type: "input",
+        name: "addTitle",
+        message: "Please enter new obligation title.",
+        validate: answer => {
+          if (answer !== "") {
+            return true;
+          }
+          return "Please enter at least one character.";
+        }
+      },
+      {
+        type: "input",
+        name: "addSalary",
+        message: "Please enter salary (Decimal Format: #####.##)",
+        validate: answer => {
+          if (Number.isInteger(answer.addSalary) !== true && answer !== "") {
+            parseFloat(answer.addSalary)
+            return true;
+          }
+          return "Please enter a valid answer.";
+        }
+      },
+      {
+        type: "input",
+        name: "addDept",
+        message: "Please enter Department ID.",
+        validate: answer => {
+          const pass = answer.match(
+            /^[1-9|.]\d*$/
+          );
+          if (pass) {
+            // connection.query("SELECT CONVERT("+answer.addDept+", CHAR)")
+            parseInt(answer.addDept)
+            return true;
+          }
+          return "Please enter a valid answer.";
+        }
+      }
+    ]).then(answer => {
+    // var salary = addZeroes(parseFloat(answer.addSalary));
+  
+    // var salary = parseFloat(answer.addSalary)
+    // var dept = parseInt(answer.addDept)
+    
+      // connection.query("INSERT INTO role (salary) VALUES (?)", [answer.addSalary])
+      // connection.query("INSERT INTO role (department_id) VALUES (?)", [answer.addDept])
+      // }
+    // addToRoles(answer.addTitle, answer.addSalary, answer.addDept)
+      addRole(answer.addTitle, answer.addSalary, answer.addDept);
+      whatElse();
+    })
+    // function addZeroes(num) {
+    //   const dec = num.split('.')[1]
+    //   const len = dec && dec.length > 2 ? dec.length : 2
+    //   return Number(num).toFixed(len)
+    // }
+    function addRole(title, salary, dept){
+      // var newAnswer = parseFloat(answer.addSalary)
+      // function addToRoles(title, salary, dept){
+        connection.query("INSERT INTO role (title, salary, department_id) VALUES (" + ['"'+title+'"', salary, dept] + ");",
+        function(err, result) {
+          if (err) throw err;
+          console.log(result);
+        });
+      }
   }
 
   observeTeam();
@@ -230,7 +365,7 @@ function viewAll() {
 
 
 
-startApp();
+// startApp();
 appMenu()
 
 
@@ -267,3 +402,19 @@ app.listen(PORT, function() {
     
 //   });
 // }  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

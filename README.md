@@ -15,9 +15,11 @@ commands!
 4. Run "node server.js" **
 5. Observe!
 
-<br/>
 
-** Please be sure to have Node.JS installed on your computer before running this app!
+#### <u>Notes</u>
+    Please be sure to have Node.JS installed on your computer before running this app!
+    If you cannot see your next query, press up or down to view query menu
+    CTRL + C will terminate this program
 
 <br/><br/>
 
