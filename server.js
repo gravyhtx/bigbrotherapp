@@ -157,8 +157,23 @@ function appMenu() {
   }
 
   function addDept() {
-    viewAll();
-    whatElse();
+    inquirer.prompt([
+      {
+        type: "input",
+        name: "addDeptName",
+        message: "Please enter role by title.",
+        validate: answer => {
+          if (answer !== "") {
+            return true;
+          }
+          return "Please enter at least one character.";
+        }
+      }
+    ]).then(answer => {
+    connection.query("INSERT INTO department (name) VALUES (?)", [answer.addDeptName])
+      whatElse();
+    })
+    
   }
   
   function addRole() {
