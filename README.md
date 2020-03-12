@@ -15,11 +15,10 @@ commands!
 4. Run "node server.js" **
 5. Observe!
 
-
+<br/><br/>
 
 ** Please be sure to have Node.JS installed on your computer before running this app!
 
-
-# 
+<br/><br/>
 And remember...
 ### Big Brother is Watching You!
