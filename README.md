@@ -21,5 +21,5 @@ commands!
 
 <br/><br/>
 
-And remember...
+And remember...</br>
 <b>Big Brother is Watching You!</b>
