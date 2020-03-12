@@ -12,7 +12,8 @@ var connection = mysql.createConnection({
   port: 3306,
   user: "root",
   password: "",
-  database: "employees_db"
+  database: "employees_db",
+  multipleStatements: true
 });
 
 // * Add new department, role, or employee
@@ -63,7 +64,7 @@ function appMenu() {
         addShit()
         break;
       case "Update employee roles":
-        updateShit()
+        updateShit();
         break;
       case "Exit":
         process.exit();
@@ -218,32 +219,10 @@ function appMenu() {
         }
       }
     ]).then(answer => {
-    // var salary = addZeroes(parseFloat(answer.addSalary));
-    addRole();
-    // var salary = parseFloat(answer.addSalary)
-    // var dept = parseInt(answer.addDept)
-    // function r
-
-    // var newAnswer = parseFloat(answer.addSalary)
-    // function addToRoles(title, salary, dept){
-      // connection.query("INSERT INTO role (title, salary, department_id) VALUES (?)", [answer.addTitle, '333.33', '3'])
-      // function(err, res) {
-      //   if (err) throw err;
-        // console.log(result);
-      // });
-      // connection.query("INSERT INTO role (salary) VALUES (?)", [answer.addSalary])
-      // connection.query("INSERT INTO role (department_id) VALUES (?)", [answer.addDept])
-      // }
-    // addToRoles(answer.addTitle, answer.addSalary, answer.addDept)
-
+      addRole();
       whatElse();
       break;
     })
-    // function addZeroes(num) {
-    //   const dec = num.split('.')[1]
-    //   const len = dec && dec.length > 2 ? dec.length : 2
-    //   return Number(num).toFixed(len)
-    // }
   }
   
   function addEmployee() {
@@ -293,39 +272,23 @@ function appMenu() {
         }
       }
     ]).then(answer => {
-    // var salary = addZeroes(parseFloat(answer.addSalary));
-  
-    // var salary = parseFloat(answer.addSalary)
-    // var dept = parseInt(answer.addDept)
-    
-      // connection.query("INSERT INTO role (salary) VALUES (?)", [answer.addSalary])
-      // connection.query("INSERT INTO role (department_id) VALUES (?)", [answer.addDept])
-      // }
-    // addToRoles(answer.addTitle, answer.addSalary, answer.addDept)
-      addRole(answer.addTitle, answer.addSalary, answer.addDept);
+      newRole(answer.addTitle, answer.addSalary, answer.addDept);
       whatElse();
     })
-    // function addZeroes(num) {
-    //   const dec = num.split('.')[1]
-    //   const len = dec && dec.length > 2 ? dec.length : 2
-    //   return Number(num).toFixed(len)
-    // }
-    function addRole(title, salary, dept){
-      // var newAnswer = parseFloat(answer.addSalary)
-      // function addToRoles(title, salary, dept){
-        connection.query("INSERT INTO role (title, salary, department_id) VALUES (" + ['"'+title+'"', salary, dept] + ");",
-        function(err, result) {
-          if (err) throw err;
-          console.log(result);
-        });
-      }
-  }
 
+    
+  }
   observeTeam();
 }
 
 
-
+function newRole(title, salary, dept){
+  connection.query("INSERT INTO role (title, salary, department_id) VALUES (" + ['"'+title+'"', salary, dept] + ");",
+  function(err, result) {
+    if (err) throw err;
+    console.log(result);
+  });
+}
 
 function viewAll() {
   function readDepartments() {
@@ -373,48 +336,3 @@ app.listen(PORT, function() {
     // Log (server-side) when our server has started
     console.log("Server listening on: http://localhost:" + PORT);
   });
-
-
-  // function viewDepartments() {
-//   var queryString = "SELECT ?? FROM department";
-//   connection.query(queryString, ["name"], function(err, result) {
-//     if (err) throw err;
-//     console.log("Departments\n" + result);
-    
-//   });
-// }
-
-// function viewRoles() {
-//   var queryString = "SELECT ?? FROM role";
-//   connection.query(queryString, ["title", "salary", "department_id"], function(err, result) {
-//     if (err) throw err;
-//     console.log("Roles\n" + result);
-    
-//   });
-// }
-  
-
-// function viewEmployees() {
-//   var queryString = "SELECT ?? FROM employee";
-//   connection.query(queryString, ["first_name", "last_name", "role_id"], function(err, result) {
-//     if (err) throw err;
-//     console.log("Employees\n" + result);
-    
-//   });
-// }  
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
