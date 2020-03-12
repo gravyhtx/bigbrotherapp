@@ -21,26 +21,130 @@ var connection = mysql.createConnection({
 
 // * Update employee roles
 
-
 // Make functions for each search
 // Find and make delete/updates
 // Determine HTML content
 // Ask Queries
 // Provide results
 
-function  viewAll(){
-connection.connect((err) => {
-    if (err) throw err;
-    console.log("Connected at " + connection.threadId)
-    readDepartments();
-    readRoles();
-    readEmployees();
-    // viewDepartments();
-    // viewRoles();
-    // viewEmployees();
-})
+function  startApp(){
+  connection.connect((err) => {
+      if (err) throw err;
+      console.log("Connected at " + connection.threadId)
+  })
+  }
+
+
+function appMenu() {
+
+  
+
+  function observeTeam() {
+
+    inquirer.prompt([
+      {
+        type: "list",
+        name: "menu",
+        message: "How will you observe today?",
+        choices: [
+          "View departments, roles, employees",
+          "Add departments, roles, employees",
+          "Update employee roles"
+        ]
+      }
+    ]).then(menuChoices => {
+      switch(menuChoices.menu) {
+      case "View departments, roles, employees":
+        readDepartments();
+        readRoles();
+        readEmployees();
+        whatElse();
+        break;
+      case "Add departments, roles, employees":
+        addShit()
+        break;
+      case "Update employee roles":
+        // buildTeam();
+        console.log("ok")
+        break;
+      }
+    });
+  }
+
+  function whatElse() {
+    inquirer.prompt([
+      {
+        type: "list",
+        name: "doMore",
+        message: "Would you like to observe some more?",
+        choices: [
+          "Let's view departments, roles, employees",
+          "Let's add departments, roles, employees",
+          "Let's update employee roles",
+          "Exit"
+        ]
+      }
+    ]).then(userChoice => {
+      switch(userChoice.doMore) {
+      case "Let's view departments, roles, employees":
+        readDepartments();
+        readRoles();
+        readEmployees();
+        whatElse();
+        break;
+      case "Let's add departments, roles, employees":
+        addShit()
+        break;
+      case "Let's update employee roles":
+        // buildTeam();
+        console.log("ok")
+        break;
+      case "Exit":
+        process.exit();
+      }
+    });
+  }
+
+  function addShit(){
+    inquirer.prompt([
+      {
+        type: "list",
+        name: "addChoices",
+        message: "What will you be adding today?",
+        choices: [
+          "Add Department",
+          "Add Role",
+          "Add Employee",
+          "Exit"
+        ]
+      }
+    ]).then(addChoice => {
+      switch(addChoice.addChoices) {
+      case "Add Department":
+        readDepartments();
+        readRoles();
+        readEmployees();
+        whatElse();
+        break;
+      case "Add role":
+        console.log("ok")
+        whatElse();
+        break;
+      case "Add employee":
+        // buildTeam();
+        console.log("ok")
+        whatElse();
+        break;
+      case "Exit":
+        process.exit();
+      }
+    });
+  }
+  observeTeam();
 }
-viewAll();
+
+
+
 
 
 
@@ -73,7 +177,8 @@ function readEmployees() {
 }
 
 
-
+startApp();
+appMenu()
 
 
 app.listen(PORT, function() {
