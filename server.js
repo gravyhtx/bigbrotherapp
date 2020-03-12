@@ -15,7 +15,7 @@ var connection = mysql.createConnection({
   database: "employees_db"
 });
 
-// * Add departments, roles, employees
+// * Add new department, role, or employee
 
 // * View departments, roles, employees
 
@@ -30,7 +30,7 @@ var connection = mysql.createConnection({
 function  startApp(){
   connection.connect((err) => {
       if (err) throw err;
-      console.log("Connected at " + connection.threadId)
+      // console.log("Connected at " + connection.threadId)
   })
   }
 
@@ -47,25 +47,26 @@ function appMenu() {
         name: "menu",
         message: "How will you observe today?",
         choices: [
-          "View departments, roles, employees",
-          "Add departments, roles, employees",
-          "Update employee roles"
+          "View departments, roles, and employees",
+          "Add new department, role, or employee",
+          "Update employee roles",
+          "Exit"
         ]
       }
     ]).then(menuChoices => {
       switch(menuChoices.menu) {
       case "View departments, roles, employees":
-        readDepartments();
-        readRoles();
-        readEmployees();
+        viewAll();
         whatElse();
         break;
-      case "Add departments, roles, employees":
+      case "Add new department, role, or employee":
         addShit()
         break;
       case "Update employee roles":
         updateShit()
         break;
+      case "Exit":
+        process.exit();
       }
     });
   }
@@ -77,24 +78,22 @@ function appMenu() {
         name: "doMore",
         message: "Would you like to observe some more?",
         choices: [
-          "Let's view departments, roles, employees",
-          "Let's add departments, roles, employees",
-          "Let's update employee roles",
+          "View departments, roles, and employees",
+          "Add new department, role, or employee",
+          "Update employee roles",
           "Exit"
         ]
       }
     ]).then(userChoice => {
       switch(userChoice.doMore) {
-      case "Let's view departments, roles, employees":
-        readDepartments();
-        readRoles();
-        readEmployees();
+      case "View departments, roles, and employees":
+        viewAll();
         whatElse();
         break;
-      case "Let's add departments, roles, employees":
+      case "Add new department, role, or employee":
         addShit()
         break;
-      case "Let's update employee roles":
+      case "Update employee roles":
         updateShit()
         break;
       case "Exit":
@@ -119,19 +118,13 @@ function appMenu() {
     ]).then(addChoice => {
       switch(addChoice.addChoices) {
       case "Add Department":
-        readDepartments();
-        readRoles();
-        readEmployees();
-        whatElse();
+        addDept();
         break;
-      case "Add role":
-        console.log("ok")
-        whatElse();
+      case "Add Role":
+        addRole();
         break;
-      case "Add employee":
-        // buildTeam();
-        console.log("ok")
-        whatElse();
+      case "Add Employee":
+        addEmployee();
         break;
       case "Exit":
         process.exit();
@@ -159,6 +152,22 @@ function appMenu() {
   }
 
   function updateByTitle(){
+    viewAll();
+    whatElse();
+  }
+
+  function addDept() {
+    viewAll();
+    whatElse();
+  }
+  
+  function addRole() {
+    viewAll();
+    whatElse();
+  }
+  
+  function addEmployee() {
+    viewAll();
     whatElse();
   }
 
@@ -168,35 +177,42 @@ function appMenu() {
 
 
 
+function viewAll() {
+  function readDepartments() {
+    connection.query("SELECT * FROM department", function(err, res) {
+      if (err) throw err;
+      // Log all results of the SELECT statement
+      console.log("Departments")
+      console.table(res);
+      
+    });
+  }
+  function readRoles() {
+    connection.query("SELECT * FROM role", function(err, res) {
+      if (err) throw err;
+      // Log all results of the SELECT statement
+      console.log("Roles")
+      console.table(res);
+      
+    });
+  }
+  function readEmployees() {
+    connection.query("SELECT * FROM employee", function(err, res) {
+      if (err) throw err;
+      // Log all results of the SELECT statement
+      console.log("Employees")
+      console.table(res);
+      
+    });
+  }
+  readDepartments();
+  readRoles();
+  readEmployees();
+}
 
 
-function readDepartments() {
-  connection.query("SELECT * FROM department", function(err, res) {
-    if (err) throw err;
-    // Log all results of the SELECT statement
-    console.log("Departments")
-    console.table(res);
-    
-  });
-}
-function readRoles() {
-  connection.query("SELECT * FROM role", function(err, res) {
-    if (err) throw err;
-    // Log all results of the SELECT statement
-    console.log("Roles")
-    console.table(res);
-    
-  });
-}
-function readEmployees() {
-  connection.query("SELECT * FROM employee", function(err, res) {
-    if (err) throw err;
-    // Log all results of the SELECT statement
-    console.log("Employees")
-    console.table(res);
-    
-  });
-}
+
+
 
 
 startApp();
