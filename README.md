@@ -1,6 +1,6 @@
 # Big Brother App
 
-## Welcome to your NEW way to observe!
+### Welcome to your NEW way to observe!
 
 With recent updates in modern technology we are now able to give you an complete
 database of your employees, departments, and job roles through some simple console
@@ -15,10 +15,11 @@ commands!
 4. Run "node server.js" **
 5. Observe!
 
-<br/><br/>
+<br/>
 
 ** Please be sure to have Node.JS installed on your computer before running this app!
 
 <br/><br/>
+
 And remember...
 ### Big Brother is Watching You!
