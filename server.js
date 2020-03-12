@@ -64,8 +64,7 @@ function appMenu() {
         addShit()
         break;
       case "Update employee roles":
-        // buildTeam();
-        console.log("ok")
+        updateShit()
         break;
       }
     });
@@ -96,8 +95,7 @@ function appMenu() {
         addShit()
         break;
       case "Let's update employee roles":
-        // buildTeam();
-        console.log("ok")
+        updateShit()
         break;
       case "Exit":
         process.exit();
@@ -140,6 +138,30 @@ function appMenu() {
       }
     });
   }
+
+  function updateShit(){
+    inquirer.prompt([
+      {
+        type: "input",
+        name: "paramChoices",
+        message: "Please enter role by title.",
+        validate: answer => {
+          if (answer !== "") {
+            return true;
+          }
+          return "Please enter at least one character.";
+        }
+      }
+    ]).then(answer => {
+      console.log(answer.paramChoices,);
+      updateByTitle();
+    });
+  }
+
+  function updateByTitle(){
+    whatElse();
+  }
+
   observeTeam();
 }
 
